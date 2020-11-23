@@ -7,8 +7,6 @@ function newPrompt(){
 }
 
 
-
-
 var testPrompts = [
 	{"prompt" : "Party with the gang!!!"},
 	{"prompt" : "Second Prompt"	},
