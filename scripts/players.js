@@ -1,4 +1,4 @@
-var players = [];
+
 var numPlayers;
 
 var jobs = [
@@ -11,10 +11,12 @@ function Player(mentalHealth, money, jobTitle){
 	this.mh = mentalHealth;
 	this.money = money;
 	this.job = jobTitle;
+	this.status = false;
 }
 
 //I don't want to maintain "objects" in their own file
 function setUpPlayers(){
+	var players = [];
 	numPlayers = document.getElementById("numberOfPlayers").value;
 
 	for(i = 0; i < numPlayers; i++){
@@ -22,9 +24,18 @@ function setUpPlayers(){
 		players[i] = new Player(100,100, jobs[jobRandom]["name"]);
 	}
 
-	sessionStorage.setItem("players", JSON.stringify(players));
+	setPlayers(players);
+	sessionStorage.setItem("numDays", document.getElementById("numberOfDays").value);
 
 	window.location.href = "prompt.html";
+}
+
+function setPlayers(players){
+	sessionStorage.setItem("players", JSON.stringify(players));
+}
+
+function getPlayers(){
+	return JSON.parse(sessionStorage.getItem("players"));
 }
 
 function updateStats(){
@@ -37,11 +48,11 @@ function updateStats(){
 
 	document.getElementById("playerStats").innerHTML = "";
   
-	var players = JSON.parse(sessionStorage.getItem("players"));
+	var players = getPlayers();
 	var numPlayers = players.length;
 	
 	for(i = 0; i < numPlayers; i++){
-		document.getElementById("playerStats").innerHTML += `<div>Player ${i + 1}, Mental Health : ${players[i]["mh"]}, Money : ${players[i]["money"]}, Job : ${players[i]["job"]}</div><br>`;
+		document.getElementById("playerStats").innerHTML += `<div>Player ${i + 1}, Mental Health : ${players[i]["mh"]}, Money : ${players[i]["money"]}, Job : ${players[i]["job"]}, Covid Positive : ${players[i]["status"]}</div><br>`;
 	}
 }
 

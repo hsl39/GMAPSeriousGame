@@ -13,17 +13,107 @@
 </head>
 
 <body>
-  <h1>Monday</h1>	
-  
-  <div id="prompt"></div>
-	<button onclick="newPrompt()">Next Day</button>
+  <h1 id="day">Sunday</h1>
+  <h2 id="player">Player 1</h2>	
+  <h3 id="prompt"></h3>
+  <div id="options"><div>
 
+
+	<button onclick="endTurn()">Submit</button>
   
 </body>
 
 <script>
 
+  function endTurn(){
+      if(currentPlayer == numPlayers - 1){
+        currentPlayer = 0 
+
+        if(dayCounter >= numDays){
+          window.location.href = "result.html";
+        }
+
+        currentDay == 6 ? currentDay = 0 : currentDay += 1;
+        dayCounter += 1;
+      }
+      else{
+        currentPlayer += 1;
+      }
+
+      //We always need a new prompt
+      setUpPrompt();
+
+      document.getElementById("day").innerHTML = daysEnum[currentDay];
+      document.getElementById("player").innerHTML = `Player ${currentPlayer + 1}`;
+
+      updateStats();
+  }
+
+  function setUpPrompt(){
+    currentPrompt = newPrompt();
+    document.getElementById("prompt").innerHTML = currentPrompt["prompt"]; 
+
+    //Clear our options
+    document.getElementById("options").innerHTML = "";
+
+    //Store our options
+    options = currentPrompt["options"];
+
+    for(i = 0; i < options.length; i++){
+      var newOption = document.createElement('button');
+      newOption.id = i;
+      newOption.innerHTML = options[i]["text"];
+
+      newOption.onclick = function(){selectOption(this.id)};
+      document.getElementById("options").appendChild(newOption);
+
+      //Purely for spacing
+      document.getElementById("options").appendChild(document.createElement('br'));
+      document.getElementById("options").appendChild(document.createElement('br'));
+    }
+
+  }
+
+  function selectOption(num){
+    var players = getPlayers();
+    
+    //Risk
+    // returns a random integer from 0 to 1
+    var randRisk = Math.floor(Math.random() * 100);
+    if( randRisk > options[num]["risk"]){
+      console.log("Covid");
+      players[currentPlayer].status = true;
+    }
+
+    //Mental Health
+
+    //Cost
+
+    //Update the session
+    setPlayers(players);
+    endTurn();
+    
+  }
+
+  //Will run on page load
+  var currentPlayer = 0;
+  var currentDay = 0;
+  var currentPrompt;
+  var options;
+  var players = getPlayers();
+
+  //Track our game length
+  var numDays = sessionStorage.getItem("numDays");
+  var dayCounter = 1;
+
+	var numPlayers = players.length;
+
+  //Add in our player stats for visuals
   updateStats();
+  //Populate our initial prompt
+  setUpPrompt();
+
+  
 
 </script>
 
