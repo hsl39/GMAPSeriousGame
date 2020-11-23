@@ -15,7 +15,7 @@ var promptJSON = [
 		"options" : 
 			[ 
 				{"text" : "Go into work", "risk" : "30", "mhReduction" : "0", "cost" : "0" },
-				{"text" : "Stay home", "risk" : "30", "mhReduction" : "0", "cost" : "0" }  
+				{"text" : "Stay home", "risk" : "0", "mhReduction" : "0", "cost" : "0" }  
 			]
 	},
 	{
@@ -24,7 +24,7 @@ var promptJSON = [
 			[ 
 				{"text" : "Go to the park - maintain a safe distance", "risk" : "5", "mhReduction" : "0", "cost" : "0" },
 				{"text" : "Go to the park - sit with them", "risk" : "15", "mhReduction" : "0", "cost" : "0" },  
-				{"text" : "Stay home", "risk" : "30", "mhReduction" : "0", "cost" : "0" }
+				{"text" : "Stay home", "risk" : "0", "mhReduction" : "0", "cost" : "0" }
 			]
 	}
 
