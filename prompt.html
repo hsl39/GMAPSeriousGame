@@ -80,7 +80,7 @@
     //Risk
     // returns a random integer from 0 to 1
     var randRisk = Math.floor(Math.random() * 100);
-    if( randRisk > options[num]["risk"]){
+    if(options[num]["risk"] > randRisk){
       console.log("Covid");
       players[currentPlayer].status = true;
     }
