@@ -86,8 +86,10 @@
     }
 
     //Mental Health
+    players[currentPlayer].mh -= options[num]["mhReduction"];
 
     //Cost
+    players[currentPlayer].money -= options[num]["cost"];
 
     //Update the session
     setPlayers(players);
