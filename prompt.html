@@ -8,12 +8,13 @@
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="scripts/players.js"></script>
-  <script src="scripts/prompts.js"></script>
+  <script src="data/prompts.js"></script>
+  <script src="data/jobs.js"></script>
   <link rel="stylesheet" href="styles/styles.css">
 </head>
 
 <body>
-  <h1 id="day">Sunday</h1>
+  <h1 id="week">WEEK 1</h1>
   <h2 id="player">Player 1</h2>	
   <h3 id="prompt"></h3>
   <div id="options"><div>
@@ -29,12 +30,11 @@
       if(currentPlayer == numPlayers - 1){
         currentPlayer = 0 
 
-        if(dayCounter >= numDays){
+        if(currentWeek > numWeeks){
           window.location.href = "result.html";
         }
 
-        currentDay == 6 ? currentDay = 0 : currentDay += 1;
-        dayCounter += 1;
+        currentWeek += 1;
       }
       else{
         currentPlayer += 1;
@@ -43,7 +43,7 @@
       //We always need a new prompt
       setUpPrompt();
 
-      document.getElementById("day").innerHTML = daysEnum[currentDay];
+      document.getElementById("week").innerHTML = `WEEK ${currentWeek}`;
       document.getElementById("player").innerHTML = `Player ${currentPlayer + 1}`;
 
       updateStats();
@@ -99,14 +99,12 @@
 
   //Will run on page load
   var currentPlayer = 0;
-  var currentDay = 0;
+  var currentWeek = 1;
   var currentPrompt;
   var options;
   var players = getPlayers();
 
-  //Track our game length
-  var numDays = sessionStorage.getItem("numDays");
-  var dayCounter = 1;
+  var numWeeks = sessionStorage.getItem("numWeeks");
 
 	var numPlayers = players.length;
 

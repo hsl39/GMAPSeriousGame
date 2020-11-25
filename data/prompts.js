@@ -1,10 +1,7 @@
 function newPrompt(){
-	
 	// returns a random integer from 0 to 2
 	var rand = Math.floor(Math.random() * promptJSON.length); 
 	return promptJSON[rand];
-
-	
 }
 
 
@@ -59,4 +56,3 @@ var promptJSON = [
 	
 ]
 
-var daysEnum = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];

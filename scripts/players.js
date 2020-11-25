@@ -1,33 +1,12 @@
 
 var numPlayers;
 
-var jobs = [
-	{"name" : "Nurse"},
-	{"name" : "Cashier"},
-	{"name" : "CEO"}
-]
-
-function Player(mentalHealth, money, jobTitle){
+function Player(mentalHealth, money, jobTitle, houseHold){
 	this.mh = mentalHealth;
 	this.money = money;
 	this.job = jobTitle;
 	this.status = false;
-}
-
-//I don't want to maintain "objects" in their own file
-function setUpPlayers(){
-	var players = [];
-	numPlayers = document.getElementById("numberOfPlayers").value;
-
-	for(i = 0; i < numPlayers; i++){
-		var jobRandom = Math.floor(Math.random() * jobs.length);
-		players[i] = new Player(100,100, jobs[jobRandom]["name"]);
-	}
-
-	setPlayers(players);
-	sessionStorage.setItem("numDays", document.getElementById("numberOfDays").value);
-
-	window.location.href = "prompt.html";
+	this.hh = houseHold;
 }
 
 function setPlayers(players){
@@ -38,6 +17,8 @@ function getPlayers(){
 	return JSON.parse(sessionStorage.getItem("players"));
 }
 
+
+//Generates a div, can be used on any page
 function updateStats(){
 
 	if(document.getElementById("playerStats") == null){
@@ -52,7 +33,11 @@ function updateStats(){
 	var numPlayers = players.length;
 	
 	for(i = 0; i < numPlayers; i++){
-		document.getElementById("playerStats").innerHTML += `<div>Player ${i + 1}, Mental Health : ${players[i]["mh"]}, Money : ${players[i]["money"]}, Job : ${players[i]["job"]}, Covid Positive : ${players[i]["status"]}</div><br>`;
+		document.getElementById("playerStats").innerHTML += `<h3>Player ${i + 1}</h3>`
+														+ `<div>Mental Health : ${players[i]["mh"]}</div>`
+														+ `<div>Money : ${players[i]["money"]}</div>`
+														+ `<div>Job : ${players[i]["job"]}</div>`
+														+ `<div>Home : ${players[i]["hh"]}</div>`;
 	}
 }
 
