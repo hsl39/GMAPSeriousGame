@@ -15,7 +15,10 @@
   <h1>COVID</h1>	
   
   <label for="numberOfPlayers">Number of players: </label>
-  <input type="number" id="numberOfPlayers" min="3" value="3"><br>
+  <input type="number" id="numberOfPlayers" min="4" value="4" onchange="updateNameBoxes()"><br>
+
+  <div>Names:</div>
+  <div id="names"></div>
 
   <label for="numberOfWeeks">Number of weeks:</label>
   <input type="number" id="numberOfWeeks" min="7" value="7"><br><br>
@@ -27,7 +30,6 @@
 </body>
 
 <script>
-
   function setUpPlayers(){
 
     var players = [];
@@ -52,7 +54,8 @@
       }
 
       //Player(mentalHealth, money, jobTitle, houseHold)
-      players[i] = new Player( 100, jobs[jobRandom]["salary"], jobs[jobRandom]["name"], currentHouse);
+      var name = document.getElementById(`name${i}`).value;
+      players[i] = new Player( name, 100, jobs[jobRandom]["salary"], jobs[jobRandom]["name"], currentHouse);
       numInHouse += 1;
 
     }
@@ -63,6 +66,24 @@
     window.location.href = "prompt.html";
   }
 
+
+  function updateNameBoxes(){
+
+    document.getElementById("names").innerHTML = "";
+    var numPlayers = document.getElementById("numberOfPlayers").value;
+
+    for(i = 0; i < numPlayers; i++){
+      var box = document.createElement('input');
+      box.id = `name${i}`;
+      box.type = "text"; 
+      document.getElementById("names").appendChild(box);
+      document.getElementById("names").appendChild(document.createElement('br'));
+    }
+    
+  }
+
+
+  updateNameBoxes();
 </script>
 
 </html>

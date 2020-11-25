@@ -1,7 +1,8 @@
 
 var numPlayers;
 
-function Player(mentalHealth, money, jobTitle, houseHold){
+function Player(name, mentalHealth, money, jobTitle, houseHold){
+	this.name = name;
 	this.mh = mentalHealth;
 	this.money = money;
 	this.job = jobTitle;
@@ -33,7 +34,7 @@ function updateStats(){
 	var numPlayers = players.length;
 	
 	for(i = 0; i < numPlayers; i++){
-		document.getElementById("playerStats").innerHTML += `<h3>Player ${i + 1}</h3>`
+		document.getElementById("playerStats").innerHTML += `<h3>${players[i]["name"]}</h3>`
 														+ `<div>Mental Health : ${players[i]["mh"]}</div>`
 														+ `<div>Money : ${players[i]["money"]}</div>`
 														+ `<div>Job : ${players[i]["job"]}</div>`
