@@ -53,8 +53,16 @@
         currentHouse += 1;
       }
 
+      //Applying names
+      var name;
+      if(document.getElementById(`name${i}`).value == ""){
+        name = `Player ${i + 1}`;
+      }
+      else{
+        name = document.getElementById(`name${i}`).value;
+      }
+      
       //Player(mentalHealth, money, jobTitle, houseHold)
-      var name = document.getElementById(`name${i}`).value;
       players[i] = new Player( name, 100, jobs[jobRandom]["salary"], jobs[jobRandom]["name"], currentHouse);
       numInHouse += 1;
 
@@ -62,8 +70,9 @@
 
     setPlayers(players);
     sessionStorage.setItem("numWeeks", document.getElementById("numberOfWeeks").value);
+    sessionStorage.setItem("numHouses", currentHouse);
 
-    window.location.href = "prompt.html";
+    window.location.href = "rules.html";
   }
 
 

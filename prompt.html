@@ -15,42 +15,62 @@
 
 <body>
   <h1 id="week">WEEK 1</h1>
-  <h2 id="player">Player 1</h2>	
+  <h2 id="scenarioName"></h2>	
+  <button type="button" onclick="testPlayer()">Get COVID Test: 25$</button><br><br>
   <h3 id="prompt"></h3>
   <div id="options"><div>
 
 
-	<button onclick="endTurn()">Submit</button>
+
   
 </body>
 
 <script>
 
   function endTurn(){
-      if(currentPlayer == numPlayers - 1){
-        currentPlayer = 0 
 
-        if(currentWeek > numWeeks){
+    var players = getPlayers();
+
+    //Is the game finished?
+    if(currentWeek > numWeeks){
           window.location.href = "result.html";
-        }
+    }
 
-        currentWeek += 1;
-      }
-      else{
-        currentPlayer += 1;
-      }
+    //Cycle week
+    if(currentHouse == sessionStorage.getItem("numHouses")){
+      currentHouse = 1; 
+      cycleWeek();
+    }
+    else{
+      currentHouse += 1;
+    }
 
-      //We always need a new prompt
-      setUpPrompt();
+    //We always need a new prompt
+    setUpPrompt();
 
-      document.getElementById("week").innerHTML = `WEEK ${currentWeek}`;
-      document.getElementById("player").innerHTML = `Player ${currentPlayer + 1}`;
+    currentPlayer = getRandomFromHouse(currentHouse);
+    document.getElementById("week").innerHTML = `WEEK ${currentWeek + 1}`;
+    document.getElementById("scenarioName").innerHTML = `Home ${currentHouse} : ${players[currentPlayer].name}`;
 
-      updateStats();
+    updateStats();
+    testLock = false;
+  }
+
+  function cycleWeek(){
+    currentWeek += 1;
+    var players = getPlayers();
+    var numPlayers = players.length;
+
+    for(i = 0; i < numPlayers; i++){
+      players[i].money = parseInt(players[i].money) + parseInt(players[i].salary);
+    }
+
+    setPlayers(players);
   }
 
   function setUpPrompt(){
-    currentPrompt = newPrompt();
+    //Generate a new prompt
+    var currentPrompt = newPrompt();
     document.getElementById("prompt").innerHTML = currentPrompt["prompt"]; 
 
     //Clear our options
@@ -91,27 +111,60 @@
     //Cost
     players[currentPlayer].money -= options[num]["cost"];
 
+    //Infected
+    if(players[currentPlayer].status == true){
+      players[currentPlayer].infected = parseInt(players[currentPlayer].infected) + parseInt(options[num]["infect"]); 
+    }
+
     //Update the session
     setPlayers(players);
     endTurn();
     
   }
 
+  function testPlayer(){
+
+    var players = getPlayers();
+
+    //Have we already done this?
+    if(testLock){
+      alert(`Test already purchased:\n COVID STATUS: ${players[currentPlayer].status}`);
+      return;
+    }
+
+    //Can they afford the test?
+    if( players[currentPlayer].money >= 25 ){
+      alert(`COVID STATUS: ${players[currentPlayer].status}`);
+      players[currentPlayer].money -= 25;
+      testLock = true;
+    }
+    else{
+      alert("Not Enough Money");
+      return;
+    }
+
+    setPlayers(players);
+    updateStats();
+  }
+
   //Will run on page load
-  var currentPlayer = 0;
-  var currentWeek = 1;
-  var currentPrompt;
+  var currentHouse = 0;
+  var currentPlayer;
+  var currentWeek = 0;
   var options;
-  var players = getPlayers();
 
   var numWeeks = sessionStorage.getItem("numWeeks");
 
-	var numPlayers = players.length;
+  var numPlayers = getPlayers().length;
+  
+  //Preventss multiple covid tests
+  var testLock = false;
 
   //Add in our player stats for visuals
   updateStats();
   //Populate our initial prompt
   setUpPrompt();
+  endTurn();
 
   
 

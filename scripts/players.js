@@ -5,9 +5,11 @@ function Player(name, mentalHealth, money, jobTitle, houseHold){
 	this.name = name;
 	this.mh = mentalHealth;
 	this.money = money;
+	this.salary = money;
 	this.job = jobTitle;
 	this.status = false;
 	this.hh = houseHold;
+	this.infected = 0;
 }
 
 function setPlayers(players){
@@ -18,6 +20,18 @@ function getPlayers(){
 	return JSON.parse(sessionStorage.getItem("players"));
 }
 
+
+function getRandomFromHouse(houseNum){
+	var valid = false;
+	var players = getPlayers();
+	while(!valid){
+		var randomPick = Math.floor(Math.random() * players.length);
+		if(players[randomPick].hh == houseNum){
+			return randomPick;
+		}
+	}
+	
+}
 
 //Generates a div, can be used on any page
 function updateStats(){
