@@ -20,6 +20,21 @@ function getPlayers(){
 	return JSON.parse(sessionStorage.getItem("players"));
 }
 
+function getPlayersFromHouse(houseNum){
+	var toReturn = [];
+	var players = getPlayers();
+	var numPlayers = players.length;
+	
+	for(i = 0; i < numPlayers; i++){
+		if(players[i].hh == houseNum ){
+			toReturn.push(players[i]);
+		}
+	}
+
+	return toReturn;
+
+}
+
 
 function getRandomFromHouse(houseNum){
 	var valid = false;

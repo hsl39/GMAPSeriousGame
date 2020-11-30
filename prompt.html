@@ -65,6 +65,36 @@
       players[i].money = parseInt(players[i].money) + parseInt(players[i].salary);
     }
 
+    //ROOMMATE INFECTION
+
+    //Loop through houses, check if each player is sick, apply chance
+    for(house = 0; house < sessionStorage.getItem("numHouses"); house++){
+      var playersInHouse = getPlayersFromHouse(house);
+
+      var isCovid = false;
+      //Check if there is covid in the house
+      for(j = 0; j < playersInHouse.length; j++){
+        if( playersInHouse[j].status == true ){
+          isCovid = true;
+        }
+      }
+
+      for(p = 0; p < players.length; p++ ){
+
+        if(players[p].hh == house && players[p].status == false){
+          var randRisk = Math.floor(Math.random() * 100);
+
+          if(randRisk < 5){
+            players[p].status = true;
+          }
+
+        }
+
+      }
+
+    }
+    //End Houses Loop
+
     setPlayers(players);
   }
 
@@ -113,7 +143,7 @@
 
     //Infected
     if(players[currentPlayer].status == true){
-      players[currentPlayer].infected = parseInt(players[currentPlayer].infected) + parseInt(options[num]["infect"]); 
+      players[currentPlayer].infected = parseInt(players[currentPlayer].infected) + parseInt(options[num]["infected"]); 
     }
 
     //Update the session

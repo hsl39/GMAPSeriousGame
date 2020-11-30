@@ -8,35 +8,78 @@
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="scripts/players.js"></script>
-  <script src="scripts/prompts.js"></script>
+  <script src="data/prompts.js"></script>
   <link rel="stylesheet" href="styles/styles.css">
 </head>
 
 <body>
   <h1>Game Over</h1>
+  <h2 id="winner"></h2>
+  <div id="results"></div>
+
+  <h2>Was Victory Worth It?</h2>
+  <div id="playerStats"></div><br>
+
+  <button onclick="returnHome()">Play Again</button>
 </body>
 
 <script>
 
-  if(document.getElementById("playerStats") == null){
-    const div = document.createElement('div');
-    div.id = "playerStats";
-    document.getElementsByTagName("BODY")[0].appendChild(div);
+  function returnHome(){
+    window.location.href = "index.html";
   }
 
-  document.getElementById("playerStats").innerHTML = "";
 
+
+  var hhPoints = [];
+  updateStats();
+
+  //Get our data
   var players = getPlayers();
-  var numPlayers = players.length;
+  var numHouses = sessionStorage.getItem("numHouses");
 
-  for(i = 0; i < numPlayers; i++){
-    document.getElementById("playerStats").innerHTML += `<h3>${players[i]["name"]}</h3>`
-                            + `<div>Mental Health : ${players[i]["mh"]}</div>`
-                            + `<div>Money : ${players[i]["money"]}</div>`
-                            + `<div>Job : ${players[i]["job"]}</div>`
-                            + `<div>Home : ${players[i]["hh"]}</div>`
-                            + `<div>Infected People : ${players[i]["infected"]}</div>`;
+  for(house = 0; house < numHouses; house++){
+    //Add all player infected for total
+    hhPoints[house] = 0;
+    for(p = 0; p < players.length; p++){
+      if(players[p].hh - 1 == house){
+        hhPoints[house] = parseInt(hhPoints[house]) + parseInt(players[p].infected);
+      }
+    }
   }
+
+  //Who won
+  var lowestIndex = 0;
+
+  //Hardcoding this shit
+  if(hhPoints[0] == hhPoints[1]){
+    lowestIndex = -1;
+  }
+  else{
+    for(current = 1; current < hhPoints.length; current++){
+      if(hhPoints[current] < hhPoints[lowestIndex]){
+        lowestIndex = current;
+      }
+    }
+  }
+
+
+
+  //Apply winner
+  if(lowestIndex == -1){
+    document.getElementById("winner").innerHTML = `Draw`;
+  }
+  else{
+    document.getElementById("winner").innerHTML = `Household ${lowestIndex + 1} Wins`;
+  }
+  
+
+  document.getElementById("results").innerHTML = "";
+  for(house = 0; house < numHouses; house++){
+    document.getElementById("results").innerHTML += `<div>Household ${house + 1} Infected: ${hhPoints[house]}<div>`;
+    document.getElementById("results").innerHTML += "<br>"
+  }
+
 
 </script>
 
