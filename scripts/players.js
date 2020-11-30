@@ -67,7 +67,7 @@ function updateStats(){
 														+ `<div>Mental Health : ${players[i]["mh"]}</div>`
 														+ `<div>Money : ${players[i]["money"]}</div>`
 														+ `<div>Job : ${players[i]["job"]}</div>`
-														+ `<div>Home : ${players[i]["hh"]}</div>`;
+														+ `<div>Household : ${players[i]["hh"]}</div>`;
 	}
 }
 

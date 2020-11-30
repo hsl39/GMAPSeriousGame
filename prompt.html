@@ -30,11 +30,7 @@
   function endTurn(){
 
     var players = getPlayers();
-
-    //Is the game finished?
-    if(currentWeek > numWeeks){
-          window.location.href = "result.html";
-    }
+    
 
     //Cycle week
     if(currentHouse == sessionStorage.getItem("numHouses")){
@@ -49,8 +45,8 @@
     setUpPrompt();
 
     currentPlayer = getRandomFromHouse(currentHouse);
-    document.getElementById("week").innerHTML = `WEEK ${currentWeek + 1}`;
-    document.getElementById("scenarioName").innerHTML = `Home ${currentHouse} : ${players[currentPlayer].name}`;
+    document.getElementById("week").innerHTML = `WEEK ${currentWeek}`;
+    document.getElementById("scenarioName").innerHTML = `Household ${currentHouse} : ${players[currentPlayer].name}`;
 
     updateStats();
     testLock = false;
@@ -58,6 +54,11 @@
 
   function cycleWeek(){
     currentWeek += 1;
+
+    if(currentWeek > numWeeks){
+          window.location.href = "result.html";
+    }
+
     var players = getPlayers();
     var numPlayers = players.length;
 
@@ -96,6 +97,7 @@
     //End Houses Loop
 
     setPlayers(players);
+
   }
 
   function setUpPrompt(){
@@ -180,7 +182,7 @@
   //Will run on page load
   var currentHouse = 0;
   var currentPlayer;
-  var currentWeek = 0;
+  var currentWeek = 1;
   var options;
 
   var numWeeks = sessionStorage.getItem("numWeeks");
